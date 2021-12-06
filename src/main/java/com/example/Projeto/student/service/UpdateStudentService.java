@@ -19,28 +19,6 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
-    public List<Student> getStudents(){
-        return studentRepository.findAll();
-    }
-
-    public void addStudents(Student student){
-        Optional<Student> findStudent = studentRepository.findStudentByEmail(student.getEmail());
-
-        if(findStudent.isPresent()){
-            throw new IllegalStateException("O email já está cadastrado");
-        }
-
-        studentRepository.save(student);
-    }
-
-    public void deleteStudents(Long studentId){
-        boolean existStudent =  studentRepository.existsById(studentId);
-        if(!existStudent){
-            throw new IllegalStateException("Estudante com o id " + studentId + "Não existe!");
-        }
-        studentRepository.deleteById(studentId);
-    }
-
     @Transactional
     public void updateStudent(Long studentId, String name, String email){
         Student student = studentRepository.findById(studentId).orElseThrow(() -> new IllegalStateException(
